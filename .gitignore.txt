@@ -1,0 +1,27 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Colab/System specific
+*.DS_Store
+.env
+.env.*
+
+# Logs and outputs
+*.log
+*.out
+
+# Model files
+*.h5
+*.pkl
+*.joblib
+
+# Data files
+*.csv
+*.npy
+*.npz
+*.xlsx
