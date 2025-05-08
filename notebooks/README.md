@@ -1,8 +1,6 @@
-# 🧪 Notebooks Overview
+# 📓 Notebooks
 
-This folder contains all key stages of the anomaly detection project based on AE/VAE models.
-
-Each notebook is organized to represent a specific phase of the project pipeline.
+This folder contains all step-by-step Jupyter notebooks used in this project.
 
 ---
 
@@ -21,9 +19,19 @@ Each notebook is organized to represent a specific phase of the project pipeline
   - Basic evaluation metrics
 - Serves as the foundation for all future iterations.
 
-### `1_data_analysis.ipynb` *(recommended next)*
-- (To be created) Exploratory data analysis (EDA) and feature preprocessing.
-- Output will feed into model training.
+### `EDA.ipynb`
+
+- Exploratory Data Analysis (EDA) notebook executed before any modeling or preprocessing.
+
+- Contains:
+  - Dataset overview: shape, data types, missing values, duplicates
+  - Label distribution and attack category frequencies
+  - Feature histograms (with log-suggested and high variance/skew detection)
+  - Correlation heatmap
+  - Outlier detection using Z-score
+  - Distribution drift check using KS-test (normal-only train/test comparison)
+
+📍 Purpose: Understand data structure, inform preprocessing strategy, and guide model design.
 
 ### `2_model_train_ae_vae.ipynb`
 - (To be created) Final training of AE and VAE models with callbacks, checkpoints, and hyperparameter tuning.
