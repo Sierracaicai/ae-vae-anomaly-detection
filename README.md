@@ -96,6 +96,20 @@ ae-vae-anomaly-detection/
 %run /content/src/utils/module_reload.py
 ```
 
+### 📌 t-SNE Projection Tool (`src/utils/tsne_vis.py`)
+
+- Visualizes high-dimensional data (e.g., features after preprocessing or latent encodings) in 2D space
+- Helps assess the separability of normal vs anomaly samples
+- Automatically samples from both classes and supports standardization toggle
+
+🧪 Example:
+
+```python
+from utils.tsne_vis import plot_tsne_projection
+
+plot_tsne_projection(df, label_col='label', sample_size=5000, standardize=False)
+```
+
 ## 📓 Notebooks
 
 - `EDA.ipynb`: Full exploratory data analysis (EDA) including:
