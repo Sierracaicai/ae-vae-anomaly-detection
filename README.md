@@ -43,6 +43,13 @@ ae-vae-anomaly-detection/
 
 ## 🧰 Core Modules
 
+### 🔹 Data Loader (`src/utils/load_data.py`)
+
+- Loads raw CSV with optional custom or default UNSW column names
+- Used to decouple EDA from preprocessing logic
+
+📘 See [docs/Data Loader](src/utils/load_data.md)
+
 ### 🔹 EDA Tools (`src/utils/eda_tools.py`)
 
 Reusable, production-ready utilities for data inspection and visualization.
