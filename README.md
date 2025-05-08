@@ -79,6 +79,23 @@ ae-vae-anomaly-detection/
 
 ---
 
+### 🔹 Colab Module Hot Reload (`src/utils/module_reload.py`)
+
+- ⚡ Reloads all utility `.py` modules (preprocess, EDA, t-SNE, etc.) **without restarting the Colab runtime**
+- Designed for **modular workflows** in Google Colab
+- Automatically reloads:
+  - `preprocess.py`
+  - `eda_tools.py`
+  - `tsne_vis.py`
+  - `load_data.py`
+  - `reduce_mem.py`
+
+🧪 Run in Colab anytime after modifying a `.py`:
+
+```python
+%run /content/src/utils/module_reload.py
+```
+
 ## 📓 Notebooks
 
 - `EDA.ipynb`: Full exploratory data analysis (EDA) including:
