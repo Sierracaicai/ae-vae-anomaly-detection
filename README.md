@@ -13,18 +13,19 @@ This project evaluates and compares anomaly detection approaches on network traf
 
 ```
 ae-vae-anomaly-detection/
-├── notebooks/                 # Step-by-step notebooks for exploration and training
-│   └── 0_exploration_and_baseline.ipynb
-├── src/                       # Source code modules
+├── notebooks/
+│   ├── 0_exploration_and_baseline.ipynb
+│   └── EDA.ipynb
+├── src/
 │   ├── utils/
-│   │   ├── eda_tools.py       # Reusable EDA functions
-│   │   ├── preprocess.py      # Data cleaning, transformation, encoding, scaling
-│   │   └── ...
-│   └── models/                # (Planned) AE/VAE architectures and trainers
-├── data/                      # Raw and processed data
+│   │   ├── eda_tools.py
+│   │   ├── preprocess.py
+│   │   ├── load_data.py
+│   │   └── reduce_mem.py
+├── data/
 │   ├── raw/
 │   └── processed/
-├── docs/                      # Module-level documentation (EDA, Preprocessing, Experiments)
+├── docs/
 │   └── feature_review.md
 ├── README.md
 ```
@@ -43,16 +44,7 @@ ae-vae-anomaly-detection/
 
 ## 🧰 Core Modules
 
-### 🔹 Data Loader (`src/utils/load_data.py`)
-
-- Loads raw CSV with optional custom or default UNSW column names
-- Used to decouple EDA from preprocessing logic
-
-📘 See [docs/Data Loader](src/utils/load_data.md)
-
 ### 🔹 EDA Tools (`src/utils/eda_tools.py`)
-
-Reusable, production-ready utilities for data inspection and visualization.
 
 - Distribution histograms, label counts
 - Outlier detection (Z-score)
@@ -61,8 +53,6 @@ Reusable, production-ready utilities for data inspection and visualization.
 
 📘 See [docs/EDA Tools](src/utils/eda_tools.md)
 
----
-
 ### 🔹 Data Preprocessing (`src/utils/preprocess.py`)
 
 - Categorical encoding (one-hot)
@@ -70,6 +60,33 @@ Reusable, production-ready utilities for data inspection and visualization.
 - Optional log1p transformation
 - Auto correlation filtering
 - Cleaned output saved to CSV
+
+### 🔹 Data Loader (`src/utils/load_data.py`)
+
+- Loads raw CSV with default UNSW column names
+- Used to decouple EDA from preprocessing
+
+📘 See [docs/Data Loader](src/utils/load_data.md)
+
+### 🔹 Memory Optimizer (`src/utils/reduce_mem.py`)
+
+- Downcasts numerical columns to reduce memory usage
+- Especially useful in Colab or large dataset scenarios
+- Optional float16 support
+- Automatically prints memory reduction summary
+
+📘 See [docs/Memory Optimizer](src/utils/reduce_mem.md)
+
+---
+
+## 📓 Notebooks
+
+- `EDA.ipynb`: Full exploratory data analysis (EDA) including:
+  - Shape, types, nulls, duplicates
+  - Label & category distributions
+  - Feature histograms, skewness, correlation
+  - Optional concept drift check (KS-test, normal-only)
+- Located in [`notebooks/`](notebooks/)
 
 ---
 
