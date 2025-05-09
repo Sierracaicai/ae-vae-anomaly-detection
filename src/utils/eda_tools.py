@@ -208,3 +208,37 @@ def select_visualization_candidates(df, skew_thresh=3.0, var_thresh=None, range_
     selected_cols = pd.concat(selected_parts)
     selected_cols = selected_cols[~selected_cols.index.duplicated(keep='first')]
     return selected_cols.sort_values(ascending=False).head(top_k).index.tolist()
+
+
+# === RARE CATEGORY DETECTION ===
+def detect_rare_categories(df, categorical_cols, freq_thresh=0.01, anomaly_col='label', class_values=(0,1)):
+    """
+    Analyze category frequencies for specified columns, showing overall, normal, and anomaly rates.
+    Also highlights rare categories below the overall frequency threshold.
+
+    Parameters:
+        df (pd.DataFrame): Input DataFrame.
+        categorical_cols (list): List of categorical columns to analyze.
+        freq_thresh (float): Overall frequency threshold to flag rare categories.
+        anomaly_col (str): Column name for binary label (0=normal, 1=anomaly).
+        class_values (tuple): (normal_class, anomaly_class) values in label column.
+    """
+    normal_class, anomaly_class = class_values
+    for col in categorical_cols:
+        print(f"🔎 Frequency analysis for column '{col}':")
+        # Calculate frequencies
+        overall = df[col].value_counts(normalize=True)
+        normal = df[df[anomaly_col] == normal_class][col].value_counts(normalize=True)
+        anomaly = df[df[anomaly_col] == anomaly_class][col].value_counts(normalize=True)
+        # Build summary DataFrame
+        freq_df = pd.DataFrame({
+            'overall_freq': overall,
+            'normal_freq': normal,
+            'anomaly_freq': anomaly
+        }).fillna(0).sort_values('anomaly_freq', ascending=False)
+        display(freq_df)
+        # Highlight rare categories
+        rare_df = freq_df[freq_df['overall_freq'] < freq_thresh]
+        if not rare_df.empty:
+            print(f"🗂 Rare categories in '{col}' (<{freq_thresh*100}% overall):")
+            display(rare_df)
