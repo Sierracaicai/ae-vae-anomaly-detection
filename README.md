@@ -24,13 +24,17 @@ ae-vae-anomaly-detection/
 │   ├── EDA.ipynb
 │   └── README.md
 ├── src/
-│   └── utils/              # Reusable utility modules
-│       ├── load_data.py    # Load raw CSV with default column names
-│       ├── reduce_mem.py   # Downcast dtypes to reduce memory
-│       ├── preprocess.py   # Full preprocessing pipeline
-│       ├── eda_tools.py    # EDA plotting & statistics utilities
-│       ├── tsne_vis.py     # t-SNE 2D projection tool
-│       └── module_reload.py# Hot-reload Python modules in Colab
+│   ├── utils/              # Reusable utility modules
+│   │   ├── load_data.py    # Load raw CSV with default column names
+│   │   ├── reduce_mem.py   # Downcast dtypes to reduce memory
+│   │   ├── preprocess.py   # Full preprocessing pipeline
+│   │   ├── eda_tools.py    # EDA plotting & statistics utilities
+│   │   ├── tsne_vis.py     # t-SNE 2D projection tool
+│   │   └── module_reload.py# Hot-reload Python modules in Colab
+│   └──models/
+│       ├── ae_model.py           # AE model builder and trainer
+│       └── ae_model.md           # Documentation for AE model module
+│
 ├── requirements.txt        # List required Python packages & version
 ├── .gitignore              # Exclude raw/processed data, env files
 └── README.md               # Project overview & usage
