@@ -54,6 +54,53 @@ def build_ae(input_dim: int,
     return Model(inp, out)
 
 
+def build_ae_deep(input_dim: int, encoding_dim: int = 16, dropout_rate: float = 0.2) -> Model:
+    """
+    Build a deeper Autoencoder model with more hidden layers and optional BatchNorm/Dropout.
+
+    Parameters:
+        input_dim (int): Number of input features.
+        encoding_dim (int): Dimension of bottleneck latent space.
+        dropout_rate (float): Dropout rate after each layer (default 0.2).
+
+    Returns:
+        keras.Model: Compiled autoencoder model.
+    """
+    inp = Input(shape=(input_dim,), name="input")
+
+    # Encoder
+    x = Dense(128, activation='relu')(inp)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    x = Dense(64, activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    x = Dense(32, activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    bottleneck = Dense(encoding_dim, activation='relu', name='bottleneck')(x)
+
+    # Decoder
+    x = Dense(32, activation='relu')(bottleneck)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    x = Dense(64, activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    x = Dense(128, activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Dropout(dropout_rate)(x)
+
+    out = Dense(input_dim, activation='linear', name="output")(x)
+
+    return Model(inp, out, name="DeepAutoencoder")
+
+
 def train_autoencoder(model,
                       X_train,
                       X_val,
