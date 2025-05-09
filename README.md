@@ -13,21 +13,27 @@ This project evaluates and compares anomaly detection approaches on network traf
 
 ```
 ae-vae-anomaly-detection/
-├── notebooks/
-│   ├── 0_exploration_and_baseline.ipynb
-│   └── EDA.ipynb
-├── src/
-│   ├── utils/
-│   │   ├── eda_tools.py
-│   │   ├── preprocess.py
-│   │   ├── load_data.py
-│   │   └── reduce_mem.py
 ├── data/
-│   ├── raw/
-│   └── processed/
+│   ├── raw/                # Original CSV files (not tracked)
+│   └── processed/          # Output of preprocessing (git-ignored)
 ├── docs/
-│   └── feature_review.md
-├── README.md
+│   └── feature_review.md   # Early manual feature analysis
+├── notebooks/              # Jupyter notebooks by stage
+│   ├── 0_draft_experiments.ipynb
+│   ├── 0_exploration_and_baseline.ipynb
+│   ├── EDA.ipynb
+│   └── README.md
+├── src/
+│   └── utils/              # Reusable utility modules
+│       ├── load_data.py    # Load raw CSV with default column names
+│       ├── reduce_mem.py   # Downcast dtypes to reduce memory
+│       ├── preprocess.py   # Full preprocessing pipeline
+│       ├── eda_tools.py    # EDA plotting & statistics utilities
+│       ├── tsne_vis.py     # t-SNE 2D projection tool
+│       └── module_reload.py# Hot-reload Python modules in Colab
+├── requirements.txt        # List required Python packages & version
+├── .gitignore              # Exclude raw/processed data, env files
+└── README.md               # Project overview & usage
 ```
 
 ---
@@ -50,6 +56,7 @@ ae-vae-anomaly-detection/
 - Outlier detection (Z-score)
 - Correlation heatmaps
 - Distribution drift analysis (KS-test)
+- Rare category detection
 
 📘 See [docs/EDA Tools](src/utils/eda_tools.md)
 
@@ -60,6 +67,8 @@ ae-vae-anomaly-detection/
 - Optional log1p transformation
 - Auto correlation filtering
 - Cleaned output saved to CSV
+
+📘 See [docs/Data Preprocessing](src/utils/preprocess.md)
 
 ### 🔹 Data Loader (`src/utils/load_data.py`)
 
@@ -77,7 +86,6 @@ ae-vae-anomaly-detection/
 
 📘 See [docs/Memory Optimizer](src/utils/reduce_mem.md)
 
----
 
 ### 🔹 Colab Module Hot Reload (`src/utils/module_reload.py`)
 
@@ -96,28 +104,31 @@ ae-vae-anomaly-detection/
 %run /content/src/utils/module_reload.py
 ```
 
-### 📌 t-SNE Projection Tool (`src/utils/tsne_vis.py`)
+### 🔹 t-SNE Projection Tool (`src/utils/tsne_vis.py`)
 
 - Visualizes high-dimensional data (e.g., features after preprocessing or latent encodings) in 2D space
 - Helps assess the separability of normal vs anomaly samples
 - Automatically samples from both classes and supports standardization toggle
 
-🧪 Example:
-
-```python
-from utils.tsne_vis import plot_tsne_projection
-
-plot_tsne_projection(df, label_col='label', sample_size=5000, standardize=False)
-```
+📘 See [docs/t-SNE Projection Tool](src/utils/tsne_vis.md)
 
 ## 📓 Notebooks
+
+- `0_draft_experiments.ipynb`: The very first draft version  
+  - Located in [`notebooks/`](notebooks/)
+
+- `0_exploration_and_baseline.ipynb`: A more structured and organized version of the original baseline
+  - Located in [`notebooks/`](notebooks/)
 
 - `EDA.ipynb`: Full exploratory data analysis (EDA) including:
   - Shape, types, nulls, duplicates
   - Label & category distributions
   - Feature histograms, skewness, correlation
   - Optional concept drift check (KS-test, normal-only)
-- Located in [`notebooks/`](notebooks/)
+  - Located in [`notebooks/`](notebooks/)
+
+- `Preprocess_and_TSNE.ipynb`: To be completed
+
 
 ---
 
