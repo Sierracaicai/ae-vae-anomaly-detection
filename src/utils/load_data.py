@@ -25,7 +25,7 @@ def load_raw_data(path: str, col_names: list = None, verbose=True) -> pd.DataFra
     Returns:
         pd.DataFrame: Loaded raw data.
     """
-    df = pd.read_csv(path, header=None)
+    df = pd.read_csv(path, header=None, low_memory=False, dtype={1: str, 3: str, 47: str})
     if col_names is None:
         col_names = default_col_names
     df.columns = col_names
