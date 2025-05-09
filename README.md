@@ -158,12 +158,27 @@ ae-vae-anomaly-detection/
 
 ---
 
-## 🔍 Future Work
 
+## 🔭 Future Work
 - Add interpretability via SHAP / LIME
 - Hyperparameter tuning and AE/VAE deepening
 - Build modular `train_runner.py`
 - Add CLI + logging support for reproducible runs
+- **Strict “Train-Only” Feature Engineering**  
+  Implement a fully pipeline-based workflow (e.g. custom `RareCategoryGrouper`, correlation filters, PCA) that is **fitted on the training set only** and then applied to validation/test sets. This will eliminate any potential leakage from unsupervised transforms.
+
+- **Compare Leakage-Aware vs. Pragmatic Approaches**  
+  Empirically evaluate the impact on AE/VAE and traditional model performance when grouping rare categories and dropping correlations using (a) full-data rules vs. (b) train-only rules.
+
+- **Production-Ready SKLearn Pipeline**  
+  Wrap the entire preprocess → train → evaluate steps into an `sklearn.Pipeline` (or TensorFlow Transform) to support reproducible CI/CD retraining and deployment.
+
+- **Automated CI/CD Tests**  
+  Add unit/integration tests that assert no data-leakage—e.g. confirm that transformers fitted on train data yield identical outputs on unseen samples.
+
+- **Monitoring & Drift Detection in Deployment**  
+  In a deployed setting, continuously monitor feature distributions and retrain the “train-only” pipeline when concept drift is detected.
+
 
 ---
 
