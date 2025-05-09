@@ -44,7 +44,10 @@ def group_rare_categories(
     pd.DataFrame
         DataFrame with rare, non-informative categories replaced by 'Other'.
     """
+    df = df.copy()
+
     normal_class, anomaly_class = class_values
+
     for col in categorical_cols:
         # Calculate overall value frequencies
         vc = df[col].value_counts(normalize=True)
@@ -57,7 +60,8 @@ def group_rare_categories(
         # Determine which rare values to group (if not more frequent in anomalies)
         to_group = [v for v in rare_vals if anomaly_freq.get(v, 0) <= normal_freq.get(v, 0)]
         if to_group:
-            df[col] = df[col].where(~df[col].isin(to_group), other='Other')
+            mask = df[col].isin(to_group)
+            df.loc[mask, col] = 'Other'
     return df
 
 
@@ -95,9 +99,11 @@ def clean_data(
     pd.DataFrame
         Cleaned DataFrame ready for further processing.
     """
+    df = df.copy()
+
     if drop_duplicates:
         before = len(df)
-        df = df.drop_duplicates()
+        df = df.loc[~df.duplicated()].copy()
         print(f"🗑 Removed {before - len(df)} duplicate rows")
     if group_rare and categorical_cols:
         df = group_rare_categories(df, categorical_cols, freq_thresh=rare_freq_thresh)
