@@ -3,8 +3,8 @@ ae_model.py
 
 Modular Autoencoder (AE) model builder, trainer, and visualizer for anomaly detection.
 """
-
-from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization
+import tensorflow
+from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization, Activation
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
@@ -26,32 +26,43 @@ def build_ae(input_dim: int,
         hidden_dims (list): List of hidden layer sizes for encoder and decoder.
         dropout_rate (float): Dropout rate (applied after batchnorm).
         use_batchnorm (bool): Whether to include BatchNormalization layers.
-        activation (str): Activation function used in all layers (except final).
+        activation (str): One of ['relu', 'tanh', 'elu', 'selu', 'leaky_relu'].
 
     Returns:
         keras.Model: Compiled AE model (untrained).
     """
-    inp = Input((input_dim,))
+    def apply_activation(x, act):
+        if act == 'leaky_relu':
+            return LeakyReLU(alpha=0.1)(x)
+        else:
+            return tensorflow.keras.layers.Activation(act)(x)
+
+    inp = Input(shape=(input_dim,))
     x = inp
 
     # Encoder
     for dim in hidden_dims:
-        x = Dense(dim, activation=activation)(x)
+        x = Dense(dim)(x)
+        x = apply_activation(x, activation)
         if use_batchnorm:
             x = BatchNormalization()(x)
         x = Dropout(dropout_rate)(x)
-    bottleneck = Dense(encoding_dim, activation=activation, name='bottleneck')(x)
+
+    bottleneck = Dense(encoding_dim)(x)
+    bottleneck = apply_activation(bottleneck, activation)
 
     # Decoder
     x = bottleneck
     for dim in reversed(hidden_dims):
-        x = Dense(dim, activation=activation)(x)
+        x = Dense(dim)(x)
+        x = apply_activation(x, activation)
         if use_batchnorm:
             x = BatchNormalization()(x)
         x = Dropout(dropout_rate)(x)
+
     out = Dense(input_dim, activation='linear')(x)
 
-    return Model(inp, out)
+    return Model(inputs=inp, outputs=out)
 
 
 def build_ae_deep(input_dim: int, encoding_dim: int = 16, dropout_rate: float = 0.2) -> Model:
