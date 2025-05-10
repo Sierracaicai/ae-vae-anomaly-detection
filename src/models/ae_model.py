@@ -4,7 +4,7 @@ ae_model.py
 Modular Autoencoder (AE) model builder, trainer, and visualizer for anomaly detection.
 """
 import tensorflow
-from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization, Activation
+from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization, Activation, LeakyReLU
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
