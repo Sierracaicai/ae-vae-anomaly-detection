@@ -4,6 +4,7 @@ ae_model.py
 Modular Autoencoder (AE) model builder, trainer, and visualizer for anomaly detection.
 """
 import tensorflow
+from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Input, Dense, Dropout, BatchNormalization, Activation, LeakyReLU
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -153,6 +154,59 @@ def train_autoencoder(model,
         validation_data=(X_val, X_val),
         epochs=epochs,
         batch_size=batch_size,
+        callbacks=callbacks,
+        verbose=1
+    )
+
+    return history, model
+
+
+def train_autoencoder_mixed_loss(model, 
+                                  X_train, 
+                                  X_val, 
+                                  alpha=0.3, 
+                                  learning_rate=1e-3,
+                                  batch_size=64,
+                                  epochs=100,
+                                  save_path='best_ae_mixed.h5'):
+    """
+    Train Autoencoder with combined reconstruction loss:
+        loss = MSE + α × weighted MSE
+
+    Parameters:
+        model (keras.Model): AE model to train
+        X_train (np.ndarray): Training features (normal only)
+        X_val (np.ndarray): Validation features (normal only)
+        alpha (float): Weight for additional MSE term
+        save_path (str): File to save best model (.h5)
+
+    Returns:
+        history: training history object
+        model: trained model (best checkpoint)
+    """
+
+    def mixed_mse_loss(y_true, y_pred):
+        mse = K.mean(K.square(y_true - y_pred), axis=1)
+        weighted = K.mean(K.square(y_true - y_pred) * y_true, axis=1)
+        return mse + alpha * weighted
+
+    model.compile(
+        optimizer=Adam(learning_rate=learning_rate),
+        loss=mixed_mse_loss,
+        metrics=['mae']
+    )
+
+    callbacks = [
+        EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True),
+        ModelCheckpoint(save_path, monitor='val_loss', save_best_only=True),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, min_lr=1e-6, verbose=1)
+    ]
+
+    history = model.fit(
+        X_train, X_train,
+        validation_data=(X_val, X_val),
+        batch_size=batch_size,
+        epochs=epochs,
         callbacks=callbacks,
         verbose=1
     )
