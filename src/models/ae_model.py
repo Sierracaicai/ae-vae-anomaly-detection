@@ -160,6 +160,55 @@ def train_autoencoder(model,
 
     return history, model
 
+def train_autoencoder_with_optimizer(model,
+                      X_train,
+                      X_val,
+                      optimizer,
+                      batch_size: int = 64,
+                      epochs: int = 100,
+                      save_path: str = 'best_ae_optimizer.h5'):
+    """
+    Train the Autoencoder model with early stopping and LR scheduling.
+
+    Parameters:
+        model (keras.Model): Compiled AE model.
+        X_train (np.array): Training data (only normal samples).
+        X_val (np.array): Validation data (only normal samples).
+        optimizer: Keras optimizer instance (e.g., Adam, AdamW, Ranger).
+        batch_size (int): Batch size.
+        epochs (int): Number of training epochs.
+        save_path (str): Path to save the best model (.h5 file).
+
+    Returns:
+        history (keras.callbacks.History): Training history.
+        model (keras.Model): Trained model with best weights restored.
+    """
+    model.compile(
+        optimizer=optimizer,
+        loss='mse',
+        metrics=['mae']
+    )
+
+    callbacks = [
+        EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True),
+        ModelCheckpoint(save_path, monitor='val_loss', save_best_only=True),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3,
+                          min_lr=1e-6, verbose=1)
+    ]
+
+    history = model.fit(
+        X_train, X_train,
+        validation_data=(X_val, X_val),
+        epochs=epochs,
+        batch_size=batch_size,
+        callbacks=callbacks,
+        verbose=1
+    )
+
+    return history, model
+
+
+
 
 def train_autoencoder_mixed_loss(model, 
                                   X_train, 
