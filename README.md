@@ -44,8 +44,8 @@ ae-vae-anomaly-detection/
 │   │    └── AE_Adaptive_Thresholding_experiment.ipynb
 │   ├── VAE_model.ipynb
 │   ├── traditional_models_with_tuning.ipy
-│   ├── Shap_Interpretability.ipynb
-│   └── README.md
+│   └── Shap_Interpretability.ipynb
+│   
 ├── src/
 │   ├── utils/              # Reusable utility modules
 │   │   ├── load_data.py    # Load raw CSV with default column names
@@ -80,121 +80,115 @@ ae-vae-anomaly-detection/
 
 **UNSW-NB15** — A modern labeled network intrusion detection dataset.
 
-- 49 features + `attack_cat` + binary `label`
+- 47 features + `attack_cat` + binary `label`
 - Mixture of normal traffic and multiple attack types
-- Used only the first 100,000 rows for initial development (scalable)
-
+- Sampling Strategy
+  - Initial experiments: 1/10 data for fast testing
+  - Final AE/VAE training: full cleaned dataset (~640,000 rows)
+  - All models trained on normal samples only, tested on mixed samples
+- See `data/README.md` for detailed download and preparation instructions
 ---
+
 
 ## 🧰 Core Modules
 
-### 🔹 EDA Tools (`src/utils/eda_tools.py`)
+This project is organized into clear functional components to enhance reproducibility and modularity:
 
-- Distribution histograms, label counts
-- Outlier detection (Z-score)
-- Correlation heatmaps
-- Distribution drift analysis (KS-test)
-- Rare category detection
+### 🔧 `src/utils/`
+Utility scripts for preprocessing, EDA, dimensionality reduction:
+- `preprocess.py`: data cleaning pipeline, encoding, scaling, feature reduction
+- `load_data.py`: standardized CSV loading with optional dtype control
+- `reduce_mem.py`: memory optimization for large CSVs
+- `tsne_vis.py`: TSNE dimensionality reduction for visualization
+- `eda_tools.py`: helper functions for EDA and summary stats
 
-📘 See [docs/EDA Tools](src/utils/eda_tools.md)
+### 🤖 `src/models/`
+Core model definitions and training utilities:
+- `ae_model.py`: AutoEncoder model builder (depth, activation, dropout adjustable)
+- `vae_model.py`: VAE model builder 
+- `beta_vae_model.py`: β-VAE implementation with KL tuning and warm-up
+- `ae_evaluation.py`: evaluation utilities, visualizations, and reporting
+- `thresholding.py`: percentile/F1 threshold strategies
 
-### 🔹 Data Preprocessing (`src/utils/preprocess.py`)
-
-- Categorical encoding (one-hot)
-- MinMax/Standard scaling
-- Optional log1p transformation
-- Auto correlation filtering
-- Cleaned output saved to CSV
-
-📘 See [docs/Data Preprocessing](src/utils/preprocess.md)
-
-### 🔹 Data Loader (`src/utils/load_data.py`)
-
-- Loads raw CSV with default UNSW column names
-- Used to decouple EDA from preprocessing
-
-📘 See [docs/Data Loader](src/utils/load_data.md)
-
-### 🔹 Memory Optimizer (`src/utils/reduce_mem.py`)
-
-- Downcasts numerical columns to reduce memory usage
-- Especially useful in Colab or large dataset scenarios
-- Optional float16 support
-- Automatically prints memory reduction summary
-
-📘 See [docs/Memory Optimizer](src/utils/reduce_mem.md)
+Each model module is independently testable and documented inline.
 
 
-### 🔹 Colab Module Hot Reload (`src/utils/module_reload.py`)
-
-- ⚡ Reloads all utility `.py` modules (preprocess, EDA, t-SNE, etc.) **without restarting the Colab runtime**
-- Designed for **modular workflows** in Google Colab
-- Automatically reloads:
-  - `preprocess.py`
-  - `eda_tools.py`
-  - `tsne_vis.py`
-  - `load_data.py`
-  - `reduce_mem.py`
-
-🧪 Run in Colab anytime after modifying a `.py`:
-
-```python
-%run /content/src/utils/module_reload.py
-```
-
-### 🔹 t-SNE Projection Tool (`src/utils/tsne_vis.py`)
-
-- Visualizes high-dimensional data (e.g., features after preprocessing or latent encodings) in 2D space
-- Helps assess the separability of normal vs anomaly samples
-- Automatically samples from both classes and supports standardization toggle
-
-📘 See [docs/t-SNE Projection Tool](src/utils/tsne_vis.md)
 
 ## 📓 Notebooks
 
-- `0_draft_experiments.ipynb`: The very first draft version  
-  - Located in [`notebooks/`](notebooks/)
+All notebooks are stored in the [`notebooks/`](./notebooks) folder and organized for each stage:
 
-- `0_exploration_and_baseline.ipynb`: A more structured and organized version of the original baseline
-  - Located in [`notebooks/`](notebooks/)
-
-- `EDA.ipynb`: Full exploratory data analysis (EDA) including:
-  - Shape, types, nulls, duplicates
-  - Label & category distributions
-  - Feature histograms, skewness, correlation
-  - Optional concept drift check (KS-test, normal-only)
-  - Located in [`notebooks/`](notebooks/)
-
-- `Preprocess_and_TSNE.ipynb`: To be completed
-
-
+| Notebook | Description |
+|----------|-------------|
+| `0_draft_experiments.ipynb` | The very first draft version of this project |
+| `0_exploration_and_baseline.ipynb` | A more structured and organized version of the original baseline |
+| `🔺EDA.ipynb` | Exploratory data analysis, feature distribution, rare category check |
+| `🔺Preprocess_and_TSNE.ipynb` | Preprocessing pipeline, scaling, encoding, and latent space visualization |
+| `🔺AE_base_model.ipynb` | Shallow AE structure, training, loss curves, evaluation |
+| `🔺experiments/` | 6 controlled AE model experiments on depth, bottleneck size, activations, loss functions, optimizers, thresholds |
+Each experiment is separately documented and reproducible.
+| `🔺VAE_model.ipynb` | VAE and β-VAE models with KL warm-up and visualization |
+| `🔺Shap_Interpretability.ipynb` | SHAP analysis for best AE model interpretability |
+| `🔺traditional_models_with_tuning.ipynb` | Baseline classical models: One-Class SVM, LOF, Isolation Forest, Elliptic Envelope and evaluation|
 ---
 
 ## 🔬 Models and Experiments
 
-| Model            | Type         | Status  | Notes                                   |
-|------------------|--------------|---------|-----------------------------------------|
-| Autoencoder      | Deep Learning | ✅ Done | Shallow AE with Dropout + BN            |
-| VAE              | Deep Learning | ✅ Done | Custom training loop + KL-div loss      |
-| Isolation Forest | Traditional  | ✅ Done | Baseline comparison                      |
-| One-Class SVM    | Traditional  | ✅ Done | Baseline comparison                      |
+The goal is to design and evaluate anomaly detection models under a robust framework. Models evaluated include:
 
-📈 Metrics: MSE reconstruction error, AUC, precision, recall
+### ✅ AutoEncoder (AE)
+
+Try basic AE model first, then design 6 experiments below to refine it
+- Shallow & Deep AE comparison
+- Bottleneck dimension sweep (4, 8, 16, 32)
+- Activation comparison: ReLU, Tanh, ELU, SELU, LeakyReLU
+- Loss strategies: standard MSE vs. mixed loss
+- Optimizers: Adam, AdamW, SGD
+- Thresholding: Percentile-based, F1-maximization
+
+📊 **Best AE Result**  
+F1 = 0.7527 | AUC = 0.9907 (Shallow AE, tanh, bottleneck=16, AdamW)
+
+### ✅ Variational AutoEncoder (VAE)
+
+- Basic VAE
+- KL divergence weighting (`β`-VAE)
+- KL annealing (warm-up strategy)
+
+❌ Paused further optimization on the VAE series because they underperformed compared to AE on this dataset
+
+### 🆚 Traditional Models
+
+- One-Class SVM, Isolation Forest, Local Outlier Factor, Elliptic Envelope
+- Trained on **normal-only samples**, validated on mixed data
+- AE consistently outperformed all classical methods in F1/AUC
 
 ---
+## 🔍 SHAP Interpretability
 
-## 🧪 Experimental Design
+To better understand the behavior of the trained AutoEncoder (AE) model, I employed **SHAP (SHapley Additive exPlanations)** to provide insights into which input features most influence anomaly scores.
 
-- Trained AE/VAE on **normal samples only**
-- Tested on **mixed samples (normal + anomalous)**
-- Compared anomaly scores across methods
-- Evaluated impact of:
-  - Sample size
-  - Thresholding method
-  - Feature engineering
-  - Model complexity
+### ❓ Why SHAP?
 
----
+SHAP is a unified approach to explain the output of any machine learning model. It computes the contribution of each feature by considering all possible combinations of features. In the context of anomaly detection, this allows us to:
+
+- Identify which features contribute most to reconstruction errors
+- Investigate what drives anomalous vs. normal behavior
+- Build trust and transparency into the model’s decisions
+
+### 📈 Summary Plot
+
+The SHAP summary plot ranks features by average impact and shows how high/low values of each feature affect anomaly detection. Here is the summary plot for our final selected AE model:
+
+### Workflow
+
+- A subset of **anomalous** samples was selected for explanation
+- SHAP values were computed using a background sample from normal data
+- We visualized global importance using summary and bar plots
+
+SHAP results demonstrated the AE model's ability to focus on semantically meaningful indicators of attack behavior.
+
+> 📁 For detailed SHAP plots and explanation workflow, see `notebooks/Shap_Interpretability.ipynb`.
 
 
 ## 🔭 Future Work
