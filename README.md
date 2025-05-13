@@ -13,6 +13,7 @@ This project evaluates and compares anomaly detection approaches on network traf
 
 ```
 ae-vae-anomaly-detection/
+├── images/                 # save all plots
 ├── data/
 │   └── README.md           # Dataset Description
 ├── docs/
@@ -178,7 +179,8 @@ SHAP is a unified approach to explain the output of any machine learning model. 
 
 ### 📈 Summary Plot
 
-The SHAP summary plot ranks features by average impact and shows how high/low values of each feature affect anomaly detection. Here is the summary plot for our final selected AE model:
+The SHAP summary plot ranks features by average impact and shows how high/low values of each feature affect anomaly detection. Here is the summary plot for our final selected AE model:![](images/SHAP_sum_plot.png)
+
 
 ### Workflow
 
@@ -190,31 +192,46 @@ SHAP results demonstrated the AE model's ability to focus on semantically meanin
 
 > 📁 For detailed SHAP plots and explanation workflow, see `notebooks/Shap_Interpretability.ipynb`.
 
+## 🏁 Final Results: AE vs Traditional Methods
+
+After a series of architectural, training, and loss function optimizations, the final AutoEncoder (AE) model was selected based on its balanced performance across precision, recall, and F1 score.
+
+### 📊 Final AE Performance
+| Metric        | Value     |
+|---------------|-----------|
+| Precision     | 0.60896   |
+| Recall        | 0.98529   |
+| F1 Score      | 0.75271   |
+| ROC AUC       | 0.99079   |
+| TP / FP / TN / FN | 2814 / 1807 / 123495 / 42 |
+
+### 🧪 Traditional Methods Performance Comparison
+
+| Method              | Precision | Recall  | F1 Score | ROC AUC | Notes |
+|---------------------|-----------|---------|----------|---------|-------|
+| **One-Class SVM**   | 0.55390   | 0.54517 | 0.54950  | 0.76758 | Tuned with GridSearch |
+| **Isolation Forest**| 0.32598   | 0.21218 | 0.25705  | 0.60109 | Weak performance overall |
+| **Elliptic Envelope** | 0.43888 | 0.34069 | 0.38360  | 0.66538 | Assumes Gaussian |
+| **Local Outlier Factor** | 0.55393 | 0.54307 | 0.54844 | 0.76655 | Unsupervised fit on normal only |
+
+The AE model **outperforms all traditional models** across all major metrics.
 
 ## 🔭 Future Work
-- Add interpretability via SHAP / LIME
-- Hyperparameter tuning and AE/VAE deepening
-- Build modular `train_runner.py`
-- Add CLI + logging support for reproducible runs
-- **Strict “Train-Only” Feature Engineering**  
-  Implement a fully pipeline-based workflow (e.g. custom `RareCategoryGrouper`, correlation filters, PCA) that is **fitted on the training set only** and then applied to validation/test sets. This will eliminate any potential leakage from unsupervised transforms.
 
-- **Compare Leakage-Aware vs. Pragmatic Approaches**  
-  Empirically evaluate the impact on AE/VAE and traditional model performance when grouping rare categories and dropping correlations using (a) full-data rules vs. (b) train-only rules.
+This project lays a strong foundation for applying Autoencoder (AE) and Variational Autoencoder (VAE) models to network anomaly detection. Based on current results and limitations, several future directions are planned:
 
-- **Production-Ready SKLearn Pipeline**  
-  Wrap the entire preprocess → train → evaluate steps into an `sklearn.Pipeline` (or TensorFlow Transform) to support reproducible CI/CD retraining and deployment.
+- **Custom Loss Functions**: Explore more advanced loss functions such as perceptual loss or feature-level reconstruction to better capture anomaly structure.
+- **Model Fusion**: Investigate the combination of AE/VAE outputs with traditional anomaly detection scores (e.g., One-Class SVM) using ensemble techniques.
+- **Generalization to Other Datasets**: Validate the current model pipeline on diverse cybersecurity datasets (e.g., CICIDS2017, NSL-KDD).
+- **Online or Continual Learning**: Extend the AE/VAE to adapt in real-time or on streaming network traffic.
+- **Time-Series Modeling**: Incorporate sequential architectures like LSTM-AE or Transformer-based VAE for traffic behavior modeling.
+- **End-to-End Deployment**: Design a lightweight model variant suitable for deployment in real-time intrusion detection systems (IDS).
 
-- **Automated CI/CD Tests**  
-  Add unit/integration tests that assert no data-leakage—e.g. confirm that transformers fitted on train data yield identical outputs on unseen samples.
-
-- **Monitoring & Drift Detection in Deployment**  
-  In a deployed setting, continuously monitor feature distributions and retrain the “train-only” pipeline when concept drift is detected.
-
+These directions aim to improve performance, robustness, interpretability, and deployment-readiness of deep anomaly detection models in real-world security settings.
 
 ---
 
 ## 👩‍💻 Author
 
-Created by [Your Name] · Portfolio Project  
+Created by [Shiyu Cai] · Portfolio Project  
 > *Feel free to fork, study or reuse parts of this repo in your own data science learning path.*
