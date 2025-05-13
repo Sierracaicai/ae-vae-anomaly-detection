@@ -3,7 +3,7 @@
 This project evaluates and compares anomaly detection approaches on network traffic data using:
 
 - 🧠 Deep learning methods: Autoencoder (AE), Variational Autoencoder (VAE)
-- 🧪 Classical methods: Isolation Forest, One-Class SVM
+- 🧪 Classical methods: Isolation Forest, One-Class SVM, Local Outlier Factor, Elliptic Envelope
 
 > Built as a portfolio-grade, modular and reproducible data science project.
 
@@ -14,26 +14,60 @@ This project evaluates and compares anomaly detection approaches on network traf
 ```
 ae-vae-anomaly-detection/
 ├── data/
-│   ├── raw/                # Original CSV files (not tracked)
-│   └── processed/          # Output of preprocessing (git-ignored)
+│   └── README.md           # Dataset Description
 ├── docs/
-│   └── feature_review.md   # Early manual feature analysis
+│   ├── feature_review.md  
+│   ├── experiments/
+│   │     ├── ae_eval_report.md      
+│   │     ├── ae_depth_comparison_report.md
+│   │     ├── bottleneck_report.md
+│   │     ├── ae_activation_experiment.md
+│   │     ├── ae_mixed_loss_experiment.md
+│   │     ├── optimizer_experiment.md
+│   │     └── thresholding_comparison.md
+│   ├── final_ae_experiment_report.md  
+│   ├── VAE_report.md       
+│   ├── AE_vs_Traditional_Report.md 
+│   └── SHAP_Interpretability_Report.md 
 ├── notebooks/              # Jupyter notebooks by stage
-│   ├── 0_draft_experiments.ipynb
-│   ├── 0_exploration_and_baseline.ipynb
+│   ├── 0_draft_experiments.ipynb 
+│   ├── 0_exploration_and_baseline.ipynb 
 │   ├── EDA.ipynb
+│   ├── Preprocess_and_TSNE.ipynb
+│   ├── AE_base_model.ipynb
+│   ├── experiments/
+│   │    ├── AE_Depth_Comparison.ipynb
+│   │    ├── Ae_Bottleneck_Experiment.ipynb
+│   │    ├── Ae_activation_Experiment.ipynb
+│   │    ├── ae_mixed_loss_experiment.ipynb
+│   │    ├── AE_optimizer_experiment.ipynb
+│   │    └── AE_Adaptive_Thresholding_experiment.ipynb
+│   ├── VAE_model.ipynb
+│   ├── traditional_models_with_tuning.ipy
+│   ├── Shap_Interpretability.ipynb
 │   └── README.md
 ├── src/
 │   ├── utils/              # Reusable utility modules
 │   │   ├── load_data.py    # Load raw CSV with default column names
+│   │   ├── load_data.md
 │   │   ├── reduce_mem.py   # Downcast dtypes to reduce memory
+│   │   ├── reduce_mem.md
 │   │   ├── preprocess.py   # Full preprocessing pipeline
+│   │   ├── preprocess.md
 │   │   ├── eda_tools.py    # EDA plotting & statistics utilities
+│   │   ├── eda_tools.md
 │   │   ├── tsne_vis.py     # t-SNE 2D projection tool
+│   │   ├── tsne_vis.md
 │   │   └── module_reload.py# Hot-reload Python modules in Colab
 │   └──models/
-│       ├── ae_model.py           # AE model builder and trainer
-│       └── ae_model.md           # Documentation for AE model module
+│       ├── ae_model.py           
+│       ├── ae_model.md 
+│       ├── ae_evaluation.py   
+│       ├── ae_evaluation.md  
+│       ├── thresholding.py
+│       ├── vae_model.py
+│       ├── beta_vae_model.py
+│       └── best_ae.h5    
 │
 ├── requirements.txt        # List required Python packages & version
 ├── .gitignore              # Exclude raw/processed data, env files
