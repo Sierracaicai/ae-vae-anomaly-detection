@@ -27,15 +27,15 @@ This module defines a custom implementation of a β-VAE (Beta Variational Autoen
 
 The total loss is defined as:
 
-\[
+$$
 \mathcal{L} = \text{Reconstruction Loss} + \beta \cdot \text{KL Divergence}
-\]
+$$
 
 - **Reconstruction Loss**: MSE
 - **KL Divergence**:
-\[
+$$
 -0.5 \sum(1 + \log(\sigma^2) - \mu^2 - \sigma^2)
-\]
+$$
 
 ---
 
