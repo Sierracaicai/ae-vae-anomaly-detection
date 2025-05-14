@@ -7,9 +7,9 @@ To evaluate whether introducing a mixed reconstruction loss (standard MSE + feat
 ## ⚙️ Loss Function
 We used a custom loss:
 
-\[
+$$
 \text{Loss} = \text{MSE}(x, \hat{x}) + \alpha \cdot \text{WeightedMSE}(x, \hat{x})
-\]
+$$
 
 Where `WeightedMSE` is the squared error weighted by the true feature values.
 
@@ -48,18 +48,6 @@ Where `WeightedMSE` is the squared error weighted by the true feature values.
 | TN             | 12336        | **12339**     |
 | FN             | 1            | 1             |
 
----
-
-## 📈 Visualizations
-
-> (Insert the reconstruction error histogram, confusion matrix, ROC curve, or loss curve images here if uploading to GitHub. e.g.)
-
-```bash
-docs/experiments/ae_mixed_loss_eval/
-├── reconstruction_hist.png
-├── confusion_matrix.png
-├── roc_curve.png
-```
 
 ---
 
