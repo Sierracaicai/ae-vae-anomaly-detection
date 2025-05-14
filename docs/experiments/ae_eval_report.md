@@ -3,7 +3,7 @@
 **Date:** 2025-05-09  
 **Model:** Basic Autoencoder  
 **Dataset:** UNSW-NB15 (cleaned subset)  
-**Samples:** 640,788 → used subset for test  
+**Samples:** 640,788   
 **Features:** 178
 
 ---
@@ -12,18 +12,17 @@
 
 | Metric        | Value     |
 |---------------|-----------|
-| Threshold     | 0.00389   |
-| Precision     | 0.6046    |
-| Recall        | 0.9860    |
-| F1 Score      | 0.7496    |
-| ROC AUC       | 0.9910    |
+| Precision     | 0.5819    |
+| Recall        | 0.6334    |
+| F1 Score      | 0.6065    |
+| ROC AUC       | 0.9847    |
 
 ### Confusion Matrix
 
 |        | Pred: Normal | Pred: Anomaly |
 |--------|--------------|----------------|
-| **Actual: Normal** | TN = 49,383   | FP = 737         |
-| **Actual: Anomaly**| FN = 16       | TP = 1,127       |
+| **Actual: Normal** | TN = 124,002   | FP = 1,300         |
+| **Actual: Anomaly**| FN = 1,047       | TP = 1,809       |
 
 ---
 
@@ -31,8 +30,9 @@
 
 - **Normal samples**: mostly low error, tight cluster near zero
 - **Anomalies**: higher reconstruction errors, right-shifted tail
-- **Threshold**: 0.00389 chosen via F1 score optimization
-- ✅ Clear distinction with acceptable overlap
+- **Threshold**: 0.00367 chosen via F1 score optimization
+
+![](../../images/ae_base_recon.png)
 
 ---
 
@@ -44,27 +44,19 @@
   - Accurate reconstruction of high-value peaks
 - Some deviations indicate potential anomaly learnability
 
+![](../../images/ae_base_sample_recon.png)
+
 ---
 
 ## 📌 Analysis Summary
 
-- AE model **successfully detects majority of anomalies** (recall 98.6%)
-- Slightly high false positives due to overlapping low-error outliers
-- Suitable for:
-  - Pre-screening
-  - Network anomaly detection
-  - Risk prioritization
+- Base AE model **can not successfully detects majority of anomalies** (recall 63.34%)
 
 ---
 
 ## 🛠️ Recommendations
 
-- Add regularization (L1/L2)
-- Tune encoding dimension or deepen the architecture
-- Explore:
-  - Sample weighting
-  - Post-filtering on FP cases
-  - VAE for probabilistic interpretation
+- Start AE model structure experiments
 
 ---
 
@@ -75,5 +67,3 @@
 - `reconstructed_samples.png`: Input vs Output plots
 
 ---
-
-_This report was automatically generated from current experiment results._
