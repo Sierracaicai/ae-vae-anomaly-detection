@@ -12,12 +12,11 @@
 
 | Metric      | Value     |
 |-------------|-----------|
-| Threshold   | 0.00288   |
-| Precision   | 0.5567    |
-| Recall      | 0.9940    |
-| F1 Score    | 0.7137    |
-| ROC-AUC     | 0.9897    |
-| Confusion Matrix | TP: 2839, FP: 2261, TN: 123041, FN: 17 |
+| Precision   | 0.6090    |
+| Recall      | 0.9853    |
+| F1 Score    | 0.7527    |
+| ROC-AUC     | 0.9908    |
+| Confusion Matrix | TP: 2814, FP: 1807, TN: 123495, FN: 42 |
 
 ---
 
