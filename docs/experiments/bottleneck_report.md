@@ -14,16 +14,16 @@ This experiment evaluates the effect of different bottleneck dimensions on the p
 
 | Bottleneck Dim | Precision | Recall | F1 Score | ROC-AUC | TP   | FP   | TN     | FN   |
 |----------------|-----------|--------|----------|---------|------|------|--------|------|
-| 4              | 0.6162    | 0.5154 | 0.5613   | 0.9786  | 1472 | 917  | 124385 | 1384 |
-| 8              | 0.5591    | 0.6208 | 0.5884   | 0.9868  | 1773 | 1398 | 123904 | 1083 |
-| 16             | **0.6046**| **0.9860** | **0.7496** | 0.9910  | 1127 | 737  | 49383  | 16   |
-| 32             | 0.5706    | 0.9667 | 0.7176   | **0.9912**  | 2761 | 2078 | 123224 | 95   |
+| 4              | 0.5297    | 0.9862 | 0.6892   | **0.9898**  | 285 | 253  | 12274 | 4 |
+| 8              | **0.5504**    | 0.9827 | **0.7056**   | 0.9889  | 284 | 232 | 12295 | 5 |
+| 16             | 0.5274| **1.0** | 0.6906 | 0.9893  | 289 | 259  | 12268  | **0**   |
+| 32             | 0.5062    | 0.9862 | 0.6690   | 0.9886  | 285 | 278 | 12249 | 4  |
 
 ## 📈 Key Observations
 
 - **Bottleneck = 16** provides the best balance of high recall and strong F1 score, making it the optimal choice in most cases.
-- **Bottleneck = 32** also performs well, slightly improving recall and AUC at the cost of more false positives.
-- Smaller dimensions (4 or 8) show signs of underfitting, losing anomaly detection ability due to excessive compression.
+- **Bottleneck = 8** also performs well, slightly improving Precision and F1 score at the cost of more false negatives.
+- Other two dimensions (4 or 32) show signs of underfitting, losing anomaly detection ability due to excessive compression.
 
 ## ✅ Recommendation
 
@@ -32,5 +32,3 @@ This experiment evaluates the effect of different bottleneck dimensions on the p
 - Avoid **4 dimensions** unless for speed testing only.
 
 ---
-
-_Report generated automatically from CSV and visual analysis._
