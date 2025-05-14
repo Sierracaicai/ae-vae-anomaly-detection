@@ -66,9 +66,12 @@ ae-vae-anomaly-detection/
 │       ├── ae_evaluation.py   
 │       ├── ae_evaluation.md  
 │       ├── thresholding.py
+│       ├── thresholding.md
 │       ├── vae_model.py
+│       ├── vae_model.md
 │       ├── beta_vae_model.py
-│       └── best_ae.h5    
+│       ├── beta_vae_model.py
+│       └── best_ae.h5      # Saved trained AE model for SHAP
 │
 ├── requirements.txt        # List required Python packages & version
 ├── .gitignore              # Exclude raw/processed data, env files
