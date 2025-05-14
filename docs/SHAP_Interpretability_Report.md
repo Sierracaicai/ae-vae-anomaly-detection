@@ -8,8 +8,7 @@ This report summarizes the interpretability analysis of the optimized AutoEncode
 
 ## 1. Global Feature Importance
 
-The SHAP bar plot shows the mean absolute SHAP value for each input feature, indicating its average contribution to the AE model’s reconstruction error: 
- ![SHAP Summary](../images/SHAP_sum_plot.png)
+The SHAP bar plot shows the mean absolute SHAP value for each input feature, indicating its average contribution to the AE model’s reconstruction error. Here is the summary plot for our final selected AE model:![SHAP Summary](../images/SHAP_sum_plot.png)
 
 - **Top features** with the highest impact:
   - `sttl`
