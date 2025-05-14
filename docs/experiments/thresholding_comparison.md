@@ -52,5 +52,3 @@ While both methods perform comparably, the percentile-based method shows **sligh
 Thus, **for stability and generalization**, the **percentile method is recommended as the default**, while **best-F1 thresholding** can be retained as an optional evaluation tool for validation experiments.
 
 ---
-
-📁 _Generated automatically by the thresholding module_
