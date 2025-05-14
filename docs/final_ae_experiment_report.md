@@ -37,7 +37,7 @@ This report summarizes all experimental findings from the Autoencoder (AE) based
 - Minor improvements in some metrics, but base MSE performed more reliably across data splits.
 
 ### 5. 🛠 Optimizers
-- Compared: `Adam`, `AdamW`, `SGD`, `Ranger`
+- Compared: `Adam`, `AdamW`, `SGD`
 - `AdamW` consistently yielded **best balance of precision/recall** and smooth convergence.
 
 ### 6. 🔎 Thresholding Strategy
