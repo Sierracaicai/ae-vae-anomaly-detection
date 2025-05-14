@@ -23,7 +23,7 @@ The SHAP bar plot shows the mean absolute SHAP value for each input feature, ind
 
 ## 2. Local Feature Attribution (Force Plot)
 
-The SHAP force plot explains the decision for a single test sample:
+The SHAP force plot explains the decision for a single test sample:![SHAP force plot](../images/force_plot.png)
 
 - **Red segments** indicate features pushing the model output toward higher anomaly score (more anomalous).
 - **Blue segments** indicate features pushing toward a lower score (more normal).
@@ -45,5 +45,3 @@ The SHAP force plot explains the decision for a single test sample:
 ## Conclusion
 
 SHAP effectively reveals which features most strongly influence the AE model's anomaly decisions, providing actionable insights for feature engineering and domain analysis.
-
-[def]: ../images/SHAP_sum_plot.png
