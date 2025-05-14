@@ -11,11 +11,11 @@ This report presents a comparison between a **Shallow Autoencoder** and a **Deep
 
 **Shallow AE Training Loss & MAE:**
 
-![Shallow AE Training](../images/shallow_training.png)
+![Shallow AE Training](../../images/ae_shallow_training.png)
 
 **Deep AE Training Loss & MAE:**
 
-![Deep AE Training](../images/deep_training.png)
+![Deep AE Training](../../images/ae_deep_training.png)
 
 ---
 
@@ -23,11 +23,11 @@ This report presents a comparison between a **Shallow Autoencoder** and a **Deep
 
 **Shallow AE Reconstruction Samples:**
 
-![Shallow AE Samples](../images/shallow_reconstruction.png)
+![Shallow AE Samples](../../images/ae_shallow_sample_recon.png)
 
 **Deep AE Reconstruction Samples:**
 
-![Deep AE Samples](../images/deep_reconstruction.png)
+![Deep AE Samples](../../images/ae_deep_sample_recon.png)
 
 ---
 
