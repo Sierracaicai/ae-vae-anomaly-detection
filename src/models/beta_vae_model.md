@@ -32,10 +32,7 @@ $$
 $$
 
 - **Reconstruction Loss**: MSE
-- **KL Divergence**:
-$$
--0.5 \sum(1 + \log(\sigma^2) - \mu^2 - \sigma^2)
-$$
+- **KL Divergence**: $-0.5 \sum(1 + \log(\sigma^2) - \mu^2 - \sigma^2)$
 
 ---
 
